@@ -1,6 +1,7 @@
 package cn.wode490390.nukkit.vipop.loot;
 
 import cn.nukkit.item.Item;
+import cn.nukkit.item.enchantment.Enchantment;
 import cn.nukkit.math.NukkitRandom;
 import cn.nukkit.nbt.NBTIO;
 import cn.nukkit.nbt.tag.CompoundTag;
@@ -10,6 +11,7 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RandomizableContainer {
 
@@ -32,7 +34,11 @@ public class RandomizableContainer {
                     result -= entry.getWeight();
                     if (result < 0) {
                         int index = random.nextBoundedInt(tags.length);
-                        tags[index] = NBTIO.putItemHelper(Item.get(entry.getId(), entry.getMeta(), random.nextRange(entry.getMinCount(), entry.getMaxCount())), index);
+                        Item item = Item.get(entry.getId(), entry.getMeta(), random.nextRange(entry.getMinCount(), entry.getMaxCount()));
+                        if (item.getId() == Item.ENCHANT_BOOK) {
+                            item.addEnchantment(Enchantment.getEnchantment(ThreadLocalRandom.current().nextInt(37)));
+                        }
+                        tags[index] = NBTIO.putItemHelper(item, index);
                         break;
                     }
                 }

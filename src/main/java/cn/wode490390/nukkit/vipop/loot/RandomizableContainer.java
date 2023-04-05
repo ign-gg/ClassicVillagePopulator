@@ -36,7 +36,11 @@ public class RandomizableContainer {
                         int index = random.nextBoundedInt(tags.length);
                         Item item = Item.get(entry.getId(), entry.getMeta(), random.nextRange(entry.getMinCount(), entry.getMaxCount()));
                         if (item.getId() == Item.ENCHANT_BOOK) {
-                            item.addEnchantment(Enchantment.getEnchantment(ThreadLocalRandom.current().nextInt(37)));
+                            Enchantment enchantment = Enchantment.getEnchantment(ThreadLocalRandom.current().nextInt(36));
+                            if (ThreadLocalRandom.current().nextDouble() < 0.3) {
+                                enchantment.setLevel(ThreadLocalRandom.current().nextInt(enchantment.getMaxLevel() + 1));
+                            }
+                            item.addEnchantment(enchantment);
                         }
                         tags[index] = NBTIO.putItemHelper(item, index);
                         break;

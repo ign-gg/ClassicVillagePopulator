@@ -53,7 +53,7 @@ public class ClassicVillagePlugin extends PluginBase implements Listener {
         Level level = event.getLevel();
         Generator generator = level.getGenerator();
         if (generator.getId() != Generator.TYPE_FLAT && generator.getDimension() == Level.DIMENSION_OVERWORLD) {
-            populators.add(new PopulatorVillage(generator.getClass() == Normal.class));
+            populators.add(new PopulatorVillage(/*generator.getClass() == Normal.class*/ false));
         }
         this.populators.put(level, populators);
     }
